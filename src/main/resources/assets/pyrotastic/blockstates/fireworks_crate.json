@@ -1,0 +1,51 @@
+{
+  "variants": {
+    "facing=north,level=1": {
+      "model": "pyrotastic:block/fireworks_crate_0"
+    },
+    "facing=east,level=1": {
+      "model": "pyrotastic:block/fireworks_crate_0",
+      "y": 90
+    },
+    "facing=south,level=1": {
+      "model": "pyrotastic:block/fireworks_crate_0",
+      "y": 180
+    },
+    "facing=west,level=1": {
+      "model": "pyrotastic:block/fireworks_crate_0",
+      "y": 270
+    },
+    "facing=north,level=2": {
+      "model": "pyrotastic:block/fireworks_crate_1",
+      "y": 0
+    },
+    "facing=east,level=2": {
+      "model": "pyrotastic:block/fireworks_crate_1",
+      "y": 90
+    },
+    "facing=south,level=2": {
+      "model": "pyrotastic:block/fireworks_crate_1",
+      "y": 180
+    },
+    "facing=west,level=2": {
+      "model": "pyrotastic:block/fireworks_crate_1",
+      "y": 270
+    },
+    "facing=north,level=3": {
+      "model": "pyrotastic:block/fireworks_crate_2",
+      "y": 0
+    },
+    "facing=east,level=3": {
+      "model": "pyrotastic:block/fireworks_crate_2",
+      "y": 90
+    },
+    "facing=south,level=3": {
+      "model": "pyrotastic:block/fireworks_crate_2",
+      "y": 180
+    },
+    "facing=west,level=3": {
+      "model": "pyrotastic:block/fireworks_crate_2",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "pyrotastic:block/fireworks_crate_front_1",
+    "down": "pyrotastic:block/fireworks_crate_bottom",
+    "up": "pyrotastic:block/fireworks_crate_top_1",
+    "north": "pyrotastic:block/fireworks_crate_front_1",
+    "south": "pyrotastic:block/fireworks_crate_front_1",
+    "west": "pyrotastic:block/fireworks_crate_side_1",
+    "east": "pyrotastic:block/fireworks_crate_side_1"
+  }
+}

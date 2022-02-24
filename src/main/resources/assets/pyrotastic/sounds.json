@@ -1,0 +1,15 @@
+{
+  "fireworks_crate_open": {
+    "subtitle": "subtitle.pyrotastic.fireworks_crate_open",
+    "sounds": [
+      "minecraft:block/barrel/open1",
+      "minecraft:block/barrel/open2"
+    ]
+  },
+  "fireworks_crate_close": {
+    "subtitle": "subtitle.pyrotastic.fireworks_crate_close",
+    "sounds": [
+      "minecraft:block/barrel/close"
+    ]
+  }
+}

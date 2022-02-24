@@ -1,0 +1,6 @@
+{
+  "block.pyrotastic.fireworks_crate": "Fireworks Crate",
+
+  "subtitle.pyrotastic.fireworks_crate_open": "Item packed into Crate",
+  "subtitle.pyrotastic.fireworks_crate_close": "Item unpacked from Crate"
+}

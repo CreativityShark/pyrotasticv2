@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "pyrotastic",
+  "version": "${version}",
+
+  "name": "Pyrotastic",
+  "description": "hehe funny fireworks mod",
+  "authors": [
+    "CreativityShark"
+  ],
+  "contact": {
+    "homepage": "*",
+    "sources": "*"
+  },
+
+  "license": "MIT",
+  "icon": "assets/pyrotastic/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.creativityshark.pyrotastic.PyrotasticMod"
+    ],
+    "client": [
+      "com.creativityshark.pyrotastic.client.PyrotasticClient"
+    ]
+  },
+  "mixins": [
+    "pyrotastic.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

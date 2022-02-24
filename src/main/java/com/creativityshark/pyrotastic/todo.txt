@@ -1,0 +1,5 @@
+To Do:
+
+4) release
+1) make dispensers work with fireworks crate
+2)fix bug where tnt doesn't activate crate
