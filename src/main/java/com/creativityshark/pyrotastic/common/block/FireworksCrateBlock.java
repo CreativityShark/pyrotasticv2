@@ -149,9 +149,8 @@ public class FireworksCrateBlock extends HorizontalFacingBlock implements BlockE
         ItemStack stack = player.getStackInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if(blockEntity instanceof FireworksCrateBlockEntity crateEntity) {
-            if((stack.isOf(Items.FIREWORK_ROCKET) || stack.isOf(Items.TNT) || stack.isOf(Items.EGG)) && !crateEntity.isFull() && !(crateEntity.getTotalCount() + crateEntity.getSpecificCount(stack) > 16)) {
-                crateEntity.addStack(stack.copy());
-                stack.setCount(0);
+            if((stack.isOf(Items.FIREWORK_ROCKET) || stack.isOf(Items.TNT)) && !crateEntity.isFull()) {
+                crateEntity.addStack(stack.split((int) Math.floor(crateEntity.size() - crateEntity.getTotalCount())));
                 world.playSound(player, pos, PyrotasticMod.FIREWORKS_CRATE_OPEN, SoundCategory.BLOCKS, 1f, 1f);
                 world.updateComparators(pos, this);
                 updateFilledLevel(crateEntity);
