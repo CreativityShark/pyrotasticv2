@@ -1,4 +1,6 @@
 {
+  "item.pyrotastic.firework_schematic": "Firework Schematic",
+
   "block.pyrotastic.fireworks_crate": "Fireworks Crate",
 
   "subtitle.pyrotastic.fireworks_crate_open": "Item packed into Crate",

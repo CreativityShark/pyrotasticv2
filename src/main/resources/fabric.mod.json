@@ -13,7 +13,7 @@
     "sources": "*"
   },
 
-  "license": "MIT",
+  "license": "GNU General Public License",
   "icon": "assets/pyrotastic/icon.png",
 
   "environment": "*",
