@@ -13,7 +13,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
@@ -88,7 +87,7 @@ public class FireworksCrateBlockItem extends BlockItem {
 
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         if(stack.getSubNbt("BlockItemTag") != null) {
-            tooltip.add((new TranslatableText("item.minecraft.bundle.fullness", getCrateOccupancy(stack), 16)).formatted(Formatting.GRAY));
+            tooltip.add((Text.translatable("item.minecraft.bundle.fullness", getCrateOccupancy(stack), 16)).formatted(Formatting.GRAY));
         }
     }
 }

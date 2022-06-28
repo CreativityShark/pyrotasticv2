@@ -1,11 +1,14 @@
 package com.creativityshark.pyrotastic.common.block;
 
 import com.creativityshark.pyrotastic.PyrotasticMod;
-import com.creativityshark.pyrotastic.common.entity.FireworksCrateEntity;
 import com.creativityshark.pyrotastic.common.entity.FireworksCrateBlockEntity;
+import com.creativityshark.pyrotastic.common.entity.FireworksCrateEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
@@ -65,11 +68,13 @@ public class FireworksCrateBlock extends HorizontalFacingBlock implements BlockE
 
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        if (world.isReceivingRedstonePower(pos) && world.getBlockEntity(pos) instanceof FireworksCrateBlockEntity crateEntity && !crateEntity.isEmpty()) {
-            primeCrate(world, pos);
-            world.removeBlock(pos, false);
+        if (world.getBlockEntity(pos) instanceof FireworksCrateBlockEntity crateEntity) {
+            updateFilledLevel(crateEntity);
+            if (world.isReceivingRedstonePower(pos) && !crateEntity.isEmpty()) {
+                primeCrate(world, pos);
+                world.removeBlock(pos, false);
+            }
         }
-
     }
 
     @Override
@@ -130,7 +135,7 @@ public class FireworksCrateBlock extends HorizontalFacingBlock implements BlockE
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         if (!world.isClient) {
             if(world.getBlockEntity(pos) instanceof FireworksCrateBlockEntity crateBlockEntity) {
-                FireworksCrateEntity crateEntity = new FireworksCrateEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, explosion.getCausingEntity(), crateBlockEntity.getInventory());
+                FireworksCrateEntity crateEntity = new FireworksCrateEntity(world, (double)pos.getX() + 0.5D, pos.getY(), (double)pos.getZ() + 0.5D, explosion.getCausingEntity(), crateBlockEntity.getInventory());
                 int i = crateEntity.getFuse();
                 crateEntity.setFuse((short)(world.random.nextInt(i / 4) + i / 8));
                 world.spawnEntity(crateEntity);
@@ -149,8 +154,9 @@ public class FireworksCrateBlock extends HorizontalFacingBlock implements BlockE
         ItemStack stack = player.getStackInHand(hand);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if(blockEntity instanceof FireworksCrateBlockEntity crateEntity) {
+            updateFilledLevel(crateEntity);
             if((stack.isOf(Items.FIREWORK_ROCKET) || stack.isOf(Items.TNT)) && !crateEntity.isFull()) {
-                crateEntity.addStack(stack.split((int) Math.floor(crateEntity.size() - crateEntity.getTotalCount())));
+                crateEntity.addStack(stack.split((int) Math.floor(16 - crateEntity.getTotalCount())));
                 world.playSound(player, pos, PyrotasticMod.FIREWORKS_CRATE_OPEN, SoundCategory.BLOCKS, 1f, 1f);
                 world.updateComparators(pos, this);
                 updateFilledLevel(crateEntity);
@@ -161,9 +167,7 @@ public class FireworksCrateBlock extends HorizontalFacingBlock implements BlockE
                 Item item = stack.getItem();
                 if (!player.isCreative()) {
                     if (stack.isOf(Items.FLINT_AND_STEEL)) {
-                        stack.damage(1, player, (playerx) -> {
-                            playerx.sendToolBreakStatus(hand);
-                        });
+                        stack.damage(1, player, (playerx) -> playerx.sendToolBreakStatus(hand));
                     } else {
                         stack.decrement(1);
                     }
@@ -215,21 +219,21 @@ public class FireworksCrateBlock extends HorizontalFacingBlock implements BlockE
             if(crateEntity.getInventory() == null || crateEntity.isEmpty()) {
                 return 0;
             } else {
-                return MathHelper.floor(crateEntity.getTotalCount() / crateEntity.size() * 14 + 1);
+                return MathHelper.floor(crateEntity.getTotalCount() / 16 * 14 + 1);
             }
         } else {
             return super.getComparatorOutput(state, world, pos);
         }
     }
 
-    public void updateFilledLevel(FireworksCrateBlockEntity crateEntity) throws IllegalArgumentException {
+    public static void updateFilledLevel(FireworksCrateBlockEntity crateEntity) throws IllegalArgumentException {
         World world = crateEntity.getWorld();
         BlockPos pos = crateEntity.getPos();
         if(world != null) {
             BlockState state = world.getBlockState(pos);
             if(crateEntity.isEmpty()) {
                 world.setBlockState(pos, state.with(LEVEL, 1));
-            } else if(crateEntity.getTotalCount() <= (float) crateEntity.size() / 2) {
+            } else if(crateEntity.getTotalCount() <= 8) {
                 world.setBlockState(pos, state.with(LEVEL, 2));
             } else {
                 world.setBlockState(pos, state.with(LEVEL, 3));

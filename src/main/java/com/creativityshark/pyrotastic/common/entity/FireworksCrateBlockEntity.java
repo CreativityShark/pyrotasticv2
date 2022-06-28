@@ -1,17 +1,21 @@
 package com.creativityshark.pyrotastic.common.entity;
 
 import com.creativityshark.pyrotastic.PyrotasticMod;
+import com.creativityshark.pyrotastic.common.block.FireworksCrateBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 
-public class FireworksCrateBlockEntity  extends BlockEntity implements Inventory {
+public class FireworksCrateBlockEntity  extends BlockEntity implements SidedInventory {
     private final DefaultedList<ItemStack> inventory;
 
     public FireworksCrateBlockEntity(BlockPos pos, BlockState state) {
@@ -21,12 +25,14 @@ public class FireworksCrateBlockEntity  extends BlockEntity implements Inventory
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
+        FireworksCrateBlock.updateFilledLevel(this);
         Inventories.writeNbt(nbt, inventory);
         super.writeNbt(nbt);
     }
 
     @Override
     public void readNbt(NbtCompound nbt) {
+        FireworksCrateBlock.updateFilledLevel(this);
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
     }
@@ -72,6 +78,8 @@ public class FireworksCrateBlockEntity  extends BlockEntity implements Inventory
     }
 
     public void addStack(ItemStack stack) {
+        assert world != null;
+        world.updateComparators(this.getPos(), PyrotasticMod.FIREWORKS_CRATE);
         if(this.isFull()) {
             PyrotasticMod.LOGGER.warn("inventory full, could not add " + stack + " to " + this);
         }
@@ -100,24 +108,11 @@ public class FireworksCrateBlockEntity  extends BlockEntity implements Inventory
 
     @Override
     public boolean isEmpty() {
-        for (ItemStack stack: this.inventory) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+        return this.getTotalCount() <= 0;
     }
 
     public boolean isFull() {
-        if(this.getTotalCount() >= 16) {
-            return true;
-        }
-        for (ItemStack stack : this.inventory) {
-            if (stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+        return this.getTotalCount() >= 16;
     }
 
     //returns the "space" taken up, determined by stack size
@@ -125,7 +120,9 @@ public class FireworksCrateBlockEntity  extends BlockEntity implements Inventory
     public double getTotalCount() {
         int result = 0;
         for (ItemStack stack : this.inventory) {
-            result += stack.getCount() / ((double)stack.getMaxCount() / 64);
+            if (!stack.isEmpty()) {
+                result += stack.getCount() / ((double) stack.getMaxCount() / 64);
+            }
         }
         return result;
     }
@@ -134,12 +131,23 @@ public class FireworksCrateBlockEntity  extends BlockEntity implements Inventory
         return this.inventory;
     }
 
-    public double getSpecificCount(ItemStack stack) {
-        return stack.getCount() / ((double)stack.getMaxCount() / 64);
-    }
-
     @Override
     public void clear() {
         this.inventory.clear();
+    }
+
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        return new int[this.size()];
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return (stack.isOf(Items.FIREWORK_ROCKET) || stack.isOf(Items.TNT)) && !this.isFull();
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return true;
     }
 }

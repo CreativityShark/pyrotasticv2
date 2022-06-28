@@ -4,6 +4,7 @@ import com.creativityshark.pyrotastic.PyrotasticMod;
 import com.creativityshark.pyrotastic.common.block.FireworksCrateBlock;
 import com.creativityshark.pyrotastic.common.entity.FireworksCrateEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.TntMinecartEntityRenderer;
@@ -14,9 +15,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
 public class FireworksCrateEntityRenderer extends EntityRenderer<FireworksCrateEntity> {
+    private final BlockRenderManager blockRenderManager;
+
     public FireworksCrateEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         this.shadowRadius = 0.5f;
+        this.blockRenderManager = context.getBlockRenderManager();
     }
 
     @Override
@@ -40,7 +44,7 @@ public class FireworksCrateEntityRenderer extends EntityRenderer<FireworksCrateE
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0F));
         matrixStack.translate(-0.5D, -0.5D, 0.5D);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
-        TntMinecartEntityRenderer.renderFlashingBlock(PyrotasticMod.FIREWORKS_CRATE.getDefaultState().with(FireworksCrateBlock.LEVEL, entity.getLevel()), matrixStack, vertexConsumerProvider, i, j / 5 % 2 == 0);
+        TntMinecartEntityRenderer.renderFlashingBlock(this.blockRenderManager, PyrotasticMod.FIREWORKS_CRATE.getDefaultState().with(FireworksCrateBlock.LEVEL, entity.getLevel()), matrixStack, vertexConsumerProvider, i, j / 5 % 2 == 0);
         matrixStack.pop();
         super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
     }

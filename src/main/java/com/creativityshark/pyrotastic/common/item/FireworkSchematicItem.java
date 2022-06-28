@@ -5,10 +5,8 @@ import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.FireworkStarItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -31,24 +29,24 @@ public class FireworkSchematicItem extends FireworkStarItem {
     public static void appendFireworkTooltip(NbtCompound nbt, List<Text> tooltip) {
         FireworkRocketItem.Type type = FireworkRocketItem.Type.byId(nbt.getByte("Type"));
         if (type != FireworkRocketItem.Type.SMALL_BALL) {
-            tooltip.add((new TranslatableText("item.minecraft.firework_star.shape." + type.getName())).formatted(Formatting.GRAY));
+            tooltip.add((Text.translatable("item.minecraft.firework_star.shape." + type.getName())).formatted(Formatting.GRAY));
         }
         int[] is = nbt.getIntArray("Colors");
         if (is.length > 0) {
-            tooltip.add(appendColors((new LiteralText("")).formatted(Formatting.GRAY), is));
+            tooltip.add(appendColors(Text.empty().formatted(Formatting.GRAY), is));
         }
 
         int[] js = nbt.getIntArray("FadeColors");
         if (js.length > 0) {
-            tooltip.add(appendColors((new TranslatableText("item.minecraft.firework_star.fade_to")).append(" ").formatted(Formatting.GRAY), js));
+            tooltip.add(appendColors((Text.translatable("item.minecraft.firework_star.fade_to")).append(" ").formatted(Formatting.GRAY), js));
         }
 
         if (nbt.getBoolean("Trail")) {
-            tooltip.add((new TranslatableText("item.minecraft.firework_star.trail")).formatted(Formatting.GRAY));
+            tooltip.add((Text.translatable("item.minecraft.firework_star.trail")).formatted(Formatting.GRAY));
         }
 
         if (nbt.getBoolean("Flicker")) {
-            tooltip.add((new TranslatableText("item.minecraft.firework_star.flicker")).formatted(Formatting.GRAY));
+            tooltip.add((Text.translatable("item.minecraft.firework_star.flicker")).formatted(Formatting.GRAY));
         }
     }
 
@@ -66,6 +64,6 @@ public class FireworkSchematicItem extends FireworkStarItem {
 
     private static Text getColorText(int color) {
         DyeColor dyeColor = DyeColor.byFireworkColor(color);
-        return dyeColor == null ? new TranslatableText("item.minecraft.firework_star.custom_color") : new TranslatableText("item.minecraft.firework_star." + dyeColor.getName());
+        return dyeColor == null ? Text.translatable("item.minecraft.firework_star.custom_color") : Text.translatable("item.minecraft.firework_star." + dyeColor.getName());
     }
 }

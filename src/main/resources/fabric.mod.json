@@ -13,7 +13,7 @@
     "sources": "*"
   },
 
-  "license": "GNU General Public License",
+  "license": "LGPL-3",
   "icon": "assets/pyrotastic/icon.png",
 
   "environment": "*",
@@ -30,9 +30,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "1.19.x",
     "java": ">=17"
   },
   "suggests": {
