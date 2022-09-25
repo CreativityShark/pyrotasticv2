@@ -1,5 +1,5 @@
 To Do:
 
-4) release
-1) make dispensers work with fireworks crate
-2)fix bug where tnt doesn't activate crate
+1) fix taking stack in creative mode when inserting in to fireworks crate
+2) make dispensers work with fireworks crate
+3) fix bug where tnt doesn't activate crate

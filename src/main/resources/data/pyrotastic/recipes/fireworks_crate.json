@@ -1,14 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "S",
-    "G",
-    "P"
+    "GG",
+    "PP",
+    "PP"
   ],
   "key": {
-    "S": {
-      "tag": "minecraft:wooden_slabs"
-    },
     "G": {
       "item": "minecraft:gunpowder"
     },
