@@ -17,6 +17,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.Map;
@@ -93,6 +94,19 @@ public class FireworkSchematicRecipe extends SpecialCraftingRecipe {
         return width * height >= 2;
     }
 
+    @Override
+    public DefaultedList<ItemStack> getRemainder(CraftingInventory inventory) {
+        DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
+        for(int i = 0; i < defaultedList.size(); ++i) {
+            ItemStack itemStack = inventory.getStack(i);
+            if (itemStack.getItem().equals(Items.CREEPER_BANNER_PATTERN)) {
+                defaultedList.set(i, itemStack.copy());
+                break;
+            }
+        }
+        return defaultedList;
+    }
+
     public ItemStack getOutput() {
         return new ItemStack(PyrotasticMod.FIREWORK_SCHEMATIC);
     }
@@ -102,7 +116,7 @@ public class FireworkSchematicRecipe extends SpecialCraftingRecipe {
     }
 
     static {
-        TYPE_MODIFIER = Ingredient.ofItems(Items.FIRE_CHARGE, Items.FEATHER, Items.GOLD_NUGGET, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL, Items.CREEPER_HEAD, Items.PLAYER_HEAD, Items.DRAGON_HEAD, Items.ZOMBIE_HEAD);
+        TYPE_MODIFIER = Ingredient.ofItems(Items.FIRE_CHARGE, Items.FEATHER, Items.GOLD_NUGGET, Items.CREEPER_BANNER_PATTERN);
         TRAIL_MODIFIER = Ingredient.ofItems(Items.DIAMOND);
         FLICKER_MODIFIER = Ingredient.ofItems(Items.GLOWSTONE_DUST);
         PAPER = Ingredient.ofItems(Items.PAPER, PyrotasticMod.FIREWORK_SCHEMATIC);
@@ -110,12 +124,7 @@ public class FireworkSchematicRecipe extends SpecialCraftingRecipe {
             hashMap.put(Items.FIRE_CHARGE, Type.LARGE_BALL);
             hashMap.put(Items.FEATHER, Type.BURST);
             hashMap.put(Items.GOLD_NUGGET, Type.STAR);
-            hashMap.put(Items.SKELETON_SKULL, Type.CREEPER);
-            hashMap.put(Items.WITHER_SKELETON_SKULL, Type.CREEPER);
-            hashMap.put(Items.CREEPER_HEAD, Type.CREEPER);
-            hashMap.put(Items.PLAYER_HEAD, Type.CREEPER);
-            hashMap.put(Items.DRAGON_HEAD, Type.CREEPER);
-            hashMap.put(Items.ZOMBIE_HEAD, Type.CREEPER);
+            hashMap.put(Items.CREEPER_BANNER_PATTERN, Type.CREEPER);
         });
     }
 }
