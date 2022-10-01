@@ -1,0 +1,8 @@
+{
+  "item.pyrotastic.firework_schematic": "花火概略図",
+
+  "block.pyrotastic.fireworks_crate": "花火木箱",
+
+  "subtitle.pyrotastic.fireworks_crate_open": "花火木箱にアイテムを詰める",
+  "subtitle.pyrotastic.fireworks_crate_close": "花火木箱からアイテムを取り出す"
+}
